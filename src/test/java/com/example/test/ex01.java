@@ -18,6 +18,8 @@ public class ex01 {
 			searchBox.sendKeys("selenium");
 			searchBox.submit();
 			System.out.println(driver.findElement(By.cssSelector("#rso > div:nth-child(1) > div > div.NJo7tc.Z26q7c.jGGQ5e > div > a")).getText());
+			Thread.sleep(5000);
+			driver.quit();
 
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
