@@ -43,20 +43,36 @@ public class ex05 {
 			SelenideElement table = $(".list-data").find("tbody");
 			List<SelenideElement> element = table.$$("tr");
 			 
-			 int tr = table.$$("tr").size();
-			 for(int i = 1; i <= tr; i++) {
-				  List<String> tdlist = element.get(i).$$("td:nth-of-type(-n+3)").texts();
-				  for(int j = 0; j <=2; j++) {
-					  if(j == 2) {
-						  System.out.print(tdlist.get(j));
-						  continue;
-					  }
-					  System.out.print(tdlist.get(j) + ",");
-				  }
-				  System.out.println();
-	            }
+			//–ñ‚S•b’Zk
+//			 int tr = table.$$("tr").size();
+//			 for(int i = 1; i <= tr; i++) {
+//				  List<String> tdlist = element.get(i).$$("td:nth-of-type(-n+3)").texts();
+//				  for(int j = 0; j <=2; j++) {
+//					  if(j == 2) {
+//						  System.out.print(tdlist.get(j));
+//						  continue;
+//					  }
+//					  System.out.print(tdlist.get(j) + ",");
+//				  }
+//				  System.out.println();
+//	            }
 				
 				Thread.sleep(2000);
+				
+				
+				//–ñ‚Q•b’Zk
+				int count = 0;
+				for (SelenideElement trElem : element) {
+					if (count >= 1) {
+						List<SelenideElement> tdlist = element.get(count).$$("td:nth-of-type(-n+3)");
+						if (tdlist.size() >= 3) {
+							System.out.println(tdlist.get(0).getText() + ","
+									+ tdlist.get(1).getText() + ","
+									+ tdlist.get(2).getText());
+						}
+					}
+					count++;
+				}
 			
 		} catch (Exception e) {
 			// TODO: handle exception
