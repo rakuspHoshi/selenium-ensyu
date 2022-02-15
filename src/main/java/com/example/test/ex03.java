@@ -19,7 +19,7 @@ public class ex03 {
 			
 			WebElement searchBox = driver.findElement(By.cssSelector("body > div.noticeofurlchange > div > button"));
 			searchBox.click();
-			 String Handle = driver.getWindowHandle();
+			String Handle = driver.getWindowHandle();
 			searchBox = driver.findElement(By.cssSelector("#menu_1 > a"));
 			searchBox.click();
 			
@@ -45,9 +45,9 @@ public class ex03 {
 			searchBox = driver.findElement(By.name("EndDateYY"));
 			searchBox.sendKeys("4");
 			searchBox = driver.findElement(By.name("EndDateMM"));
-			searchBox.sendKeys("6");
+			searchBox.sendKeys("3");
 			searchBox = driver.findElement(By.name("EndDateDD"));
-			searchBox.sendKeys("30");
+			searchBox.sendKeys("15");
 			
 			Thread.sleep(2000);
 			
