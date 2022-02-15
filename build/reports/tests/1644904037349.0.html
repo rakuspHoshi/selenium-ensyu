@@ -1,0 +1,601 @@
+<html lang="ja"><head>
+<title>電子調達システム</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+<meta content="IE=11.0000" http-equiv="X-UA-Compatible">
+<link rel="icon" type="image/gif" href="/image/logoa.gif">
+<link rel="stylesheet" type="text/css" href="/style.css">
+<link rel="stylesheet" type="text/css" href="/css/common.css">
+<script type="text/javascript" src="/jquery.js"></script>
+<script type="text/javascript" src="/function.js"></script>
+<script type="text/javascript" src="/chatbot.js"></script>
+
+</head>
+<body onload="setBgColorAndFontSize();">
+	<style>
+  .noticeofurlchange{
+    display:none;
+    width:100%;
+    height:100%;
+    background: rgba(0,0,0,0.6);
+    position:fixed;
+    z-index:1;
+  }
+  .msg_area{
+    width:740px;
+    height:380px;
+    position:absolute;
+    top:50%;
+    left:50%;
+    margin-top:-175px;
+    margin-left:-300px;
+    background-color:#fff;
+    z-index:2;
+  }
+  .msg_area p{
+    padding:15px;
+  }
+  .msg_area button{
+    display:block;
+    margin:0 auto;
+  }
+  .msg_style {
+    color:#FF0000;
+    font-weight:bold;
+  }
+  .url_style {
+    color:#0067C0;
+  }
+</style>
+
+<div class="noticeofurlchange" style="display: none;">
+  <div class="msg_area">
+    <p>
+      <span class="msg_style">★このアナウンスは、新URLでの環境設定等がお済みの方にも定期的に表示されます★</span><br><br>
+      東京都電子調達システムのURLは、2021年３月28日より、次のとおり変更されています。<br><br>
+      （新URL） <span class="url_style">https://www.e-procurement.metro.tokyo.lg.jp/</span> ※「.lg」が追加になりました<br>
+      （旧URL） https://www.e-procurement.metro.tokyo.jp/<br><br><br>
+      上記に伴い、新URLへの環境設定等を行われていない方は、以下の作業をお願いいたします。<br>
+      ①「お気に入り」に登録されている場合には、新URLへの変更をお願いいたします。<br>
+      ②「事前準備等」の「パソコンの設定」を参考に、以下の環境設定の見直しをお願いいたします。<br>
+       ・信頼済みサイトへの登録<br>
+       ・ポップアップブロックの例外設定
+    </p>
+    <button onclick="done();">OK</button>
+  </div>
+</div>
+
+<script src="/noticeofurlchange/jquery.cookie.js"></script>
+<script type="text/javascript">
+  $(function(){
+    $(".noticeofurlchange").show();
+    $.cookie('done') == 'yes'?$(".noticeofurlchange").hide():$(".noticeofurlchange").show();
+  });
+  function done(){
+    $(".noticeofurlchange").fadeOut();
+    $.cookie('done', 'yes', { expires: 30,path: '/' });
+  }
+</script>
+
+	<form name="main" method="post" action="SrvPublish">
+		<input type="hidden" name="page">
+		<input type="hidden" name="act">
+		<input type="hidden" name="seq">
+	</form>
+	
+	<form name="mainKeiyaku" method="post" action="/indexKeiyaku.jsp" target="_blank">
+		<input type="hidden" name="page">
+		<input type="hidden" name="act">
+	</form>
+
+	<div id="wrapper" class="clearfix">
+		<div id="header">
+		    
+
+
+		    <div id="top_header">
+				<div id="banner_area" class="clearfix">
+					<div id="banner_logo"><a href="/index.jsp" target="_self"><img id="tepsLogo" src="http://www.e-procurement.metro.tokyo.lg.jp/image/cmnTepsLogoB.png" title="東京都電子調達システム" alt="東京都電子調達システム"></a></div>
+				</div>
+				<div id="function_area">
+					<div id="link_top"><a href="https://www.metro.tokyo.lg.jp/" target="_blank"><img id="linkTMG" src="http://www.e-procurement.metro.tokyo.lg.jp/image/cmnLinkTMG.png" width="180px" height="25px" title="都庁総合トップページへ" alt="都庁総合トップページへ"></a></div>
+					<div id="link_zaimu_top"><a href="https://www.zaimu.metro.tokyo.lg.jp/index.html" target="_blank"><img id="linkBoF" src="http://www.e-procurement.metro.tokyo.lg.jp/image/cmnLinkBoF.png" width="180px" height="25px" title="財務局トップページへ" alt="財務局トップページへ"></a></div>
+					<dl id="ChangeColor">
+						<dt><img id="chgColor" src="http://www.e-procurement.metro.tokyo.lg.jp/image/cmnChgColor.png" title="背景色を変更" alt="背景色を変更"></dt>
+						<dd class="toWhite"><a href="#" onclick="setBgColor(1);return false;">白</a></dd>
+						<dd class="toBlack"><a href="#" onclick="setBgColor(2); return false;">黒</a></dd>
+						<dd class="toNormal"><a href="#" onclick="revertBgColor(0);return false;" class="active">通常</a></dd>
+					</dl>
+					<dl id="FontSize">
+						<dt><img id="fontSize" src="http://www.e-procurement.metro.tokyo.lg.jp/image/cmnFontSize.png" title="文字サイズ" alt="文字サイズ"></dt>
+						<dd class="fontS"><a href="#" onclick="changeFontSize(-1);return false;">小</a></dd>
+						<dd class="fontM"><a href="#" onclick="revertStyles(); return false;" class="active">標準</a></dd>
+						<dd class="fontL"><a href="#" onclick="changeFontSize(1);return false;">大</a></dd>
+					</dl>
+				</div>
+			</div>
+
+
+		</div>
+		<div id="contents" class="clearfix">
+			<div id="menu_header">
+				<ul>
+					<li id="menu_1"><a href="/indexPbi.jsp" target="_blank"><span>入札情報サービス</span></a> </li>
+					<li id="menu_2"><a href="https://www.e-procurement.metro.tokyo.lg.jp/ebd/index.jsp" target="_blank"><span>電子入札</span></a> </li>
+					<li id="menu_3"><a href="https://www.e-procurement.metro.tokyo.lg.jp/qer/index.jsp" target="_blank"><span>資格審査</span></a> </li>
+					<li id="menu_4"><a href="#" onclick="loadHTML(0);"><span>事前準備等</span></a> </li>
+				</ul>
+			</div>
+			<div id="container_top">
+				<div id="category_menu">
+					<ul>
+						<li class="cat_menu_1">
+							<a href="/indexPbi.jsp" target="_blank"><img class="cat_name" src="/image/cmnMenuPbiQ.png" title="入札情報サービス" alt="入札情報サービス"></a>
+							<a href="/indexPbi.jsp" target="_blank" class="title"><span>入札情報サービス</span></a>
+						</li>
+						<li class="cat_menu_2">
+							<a href="https://www.e-procurement.metro.tokyo.lg.jp/ebd/index.jsp" target="_blank"><img class="cat_name" src="/image/cmnMenuEbd.png" title="電子入札" alt="電子入札"></a>
+							<a href="https://www.e-procurement.metro.tokyo.lg.jp/ebd/index.jsp" target="_blank" class="title"><span>電子入札</span></a>
+						</li>
+						<li class="cat_menu_3">
+							<a href="https://www.e-procurement.metro.tokyo.lg.jp/qer/index.jsp" target="_blank"><img class="cat_name" src="/image/cmnMenuQer.png" title="資格審査" alt="資格審査"></a>
+							<a href="https://www.e-procurement.metro.tokyo.lg.jp/qer/index.jsp" target="_blank" class="title"><span>資格審査</span></a>
+						</li>
+						<li class="cat_menu_4">
+							<a href="#" onclick="loadHTML(0);"><img class="cat_name" src="/image/cmnMenuPreparation.png" title="事前準備等" alt="事前準備等"></a>
+							<a href="#" onclick="loadHTML(0);" class="title"><span>事前準備等</span></a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div id="container" class="clearfix">
+				<div id="container_body" class="clearfix" style="font-size: 100%;">
+					<div id="container_left" class="menu_left">
+						<div id="keiyaku_archive_left">
+						<table>
+							<tbody><tr>
+								<td align="center" colspan="3">
+								<a href="https://www.zaimu.metro.tokyo.lg.jp/keiyaku/covid-19/covid-19.html" target="_blank"><img width="220" src="/image/covid-19.png" alt="新型コロナウイルス　工事等の対応" title="新型コロナウイルス　工事等の対応"></a>
+								</td>
+							</tr>
+							<tr>
+								<td align="center" colspan="3">
+									<a href="/html/shikakushinsa2/reiwa2-3.nyuusatusannkasikakuteikisinnsei.html" target="_blank"><img width="220" src="/image/R3_4_TeiikiTokusetsu.png" alt="令和３・４年度入札参加資格定期申請" title="令和３・４年度入札参加資格定期申請"></a>
+								</td>
+							</tr>
+						    <tr>
+								<td align="center" colspan="3">
+								<a href="#" onclick="openChatBotWin()"><img width="220" src="/image/chatbot.png" alt="電子調達チャットボット" title="電子調達チャットボット"></a>
+								</td>
+							</tr>
+							<tr>
+								<td class="left_img"><img src="/image/cmnContractSystemLogo.png" width="60px" height="60px" title="契約制度を調べる" alt="契約制度を調べる"></td>
+								<td class="left_link"><a href="#" onclick="keiyakuExec();"><font style="font-weight: bold;font-size:150%;">契約制度</font><br>を調べる</a></td>
+								<td class="left_arrow"><a href="#" onclick="keiyakuExec();"><font style="font-size:120%;">＞</font></a></td>
+							</tr>
+							<tr>
+								<td class="left_img"><img src="/image/cmnNotificationsLogo.png" width="60px" height="60px" title="契約部署からのお知らせ" alt="契約部署からのお知らせ"></td>
+								<td class="left_link"><a href="#" onclick="noticeExec();">契約部署からの<br><font style="font-size:150%;">お知らせ</font></a></td>
+								<td class="left_arrow"><a href="#" onclick="noticeExec();"><font style="font-size:120%;">＞</font></a></td>
+							</tr>
+							<tr>
+								<td class="left_img"><img src="/image/cmnOpenLogo.png" width="60px" height="60px" title="稼働時間" alt="稼働時間"></td>
+								<td class="left_link"><font style="font-weight: bold;font-size:150%;">稼働時間</font></td>
+							</tr>
+						</tbody></table>
+						<table>
+							<tbody><tr>
+								<td class="left_kadojikan">　　● 入札情報サービス　<br>　　　　24時間365日</td>
+							</tr>
+							<tr>
+								<td class="left_kadojikan">　　● 電子入札・資格審査<br>　　　　8:00~21:00<br>　　　　（土曜日を除く）</td>
+							</tr>
+						</tbody></table>
+						</div>
+						<div id="kadojikan_detail">
+							<div id="kadojikan_title">
+								<h2>リンク</h2>
+							</div>
+							<ul>
+								<li class="kado_br">&nbsp;</li>
+								<li class="kado_br">&nbsp;</li>
+								<li><a href="https://www.e-tokyo.lg.jp" target="_blank"><img src="/image/cmnBanner_01.gif" alt="東京電子自治体共同運営サービス" title="東京電子自治体共同運営サービス" width="200px" height="50px"></a></li>
+								<li class="kado_br">&nbsp;</li>
+								<li><a href="https://www.sekai2020.tokyo/bcn/" target="_blank"><img src="/image/cmnMenuSekai2020.jpg" title="ビジネスチャンス・ナビ2020" alt="ビジネスチャンス・ナビ2020" width="200px" height="50px"></a></li>
+								<li class="kado_br">&nbsp;</li>
+								<div style="width : 130px;height :88px;margin:0 auto;" id="DigiCertClickID_Rs4G9tLQ" align="center"></div>
+								<script type="text/javascript">
+								    var __dcid = __dcid || [];__dcid.push(["DigiCertClickID_Rs4G9tLQ", "15", "l", "black", "Rs4G9tLQ"]);(function(){var cid=document.createElement("script");cid.async=true;cid.src="//seal.digicert.com/seals/cascade/seal.min.js";var s = document.getElementsByTagName("script");var ls = s[(s.length - 1)];ls.parentNode.insertBefore(cid, ls.nextSibling);}());
+								</script><script async="" src="//seal.digicert.com/seals/cascade/seal.min.js"></script>
+								<li class="kado_br">&nbsp;</li>
+								<li class="get_pdf">このウェブサイトは、合同会社シマンテック・ウェブサイトセキュリティのSSLサーバ証明書を使用して、あなたの個人情報を保護しています。</li>
+								<li class="kado_br">&nbsp;</li>
+								<li class="get_pdf">掲載されたＰＤＦファイルをご覧いただくには、Adobe Reder(ﾌﾘｰ)が必要です。ﾀﾞｳﾝﾛｰﾄﾞｻｲﾄはこちら。</li>
+								<li class="kado_br">&nbsp;</li>
+								<li>&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.adobe.co.jp/products/acrobat/readstep2.html" target="_blank"><img src="/image/getreader.png" title="掲載されたＰＤＦファイルをご覧いただく には、Adobe Reder(ﾌﾘｰ)が必要です。 ﾀﾞｳﾝﾛｰﾄﾞｻｲﾄはこちら " alt="掲載されたＰＤＦファイルをご覧いただく には、Adobe Reder(ﾌﾘｰ)が必要です。 ﾀﾞｳﾝﾛｰﾄﾞｻｲﾄはこちら "></a></li>
+							</ul>
+						</div>
+					</div>
+
+					<div id="container_right">
+						<div id="system_notice_title">
+							<h2>システムからのお知らせ</h2>
+							<div class="title_right">
+								<div class="notice_list">
+									<table>
+										<tbody><tr>
+										<td>
+											<a href="javascript:void(0);" onclick="systemNoticeIchiran()">過去のお知らせ<br>はこちら</a>
+										</td>
+										<td>
+											<a href="javascript:void(0);" onclick="systemNoticeIchiran()">&gt;</a>
+										</td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+						</div>
+						<div id="system_notice_detail">
+							<div id="system_notice_list" class="detail_list">
+								<table>
+	
+									<tbody><tr>
+										<td class="notice_date">2021年12月15日</td>
+										<td class="notice_hyodai"><span class="importance">【重要】</span><a href="javascript:void(0);" onmouseover="window.status='SrvPublish';return true" onmousemove="window.status='SrvPublish';return true" onmouseout="window.status='';return true" onclick="javascript:window.open('', 'systemNoticeDetail', 'width=1024, height=680, top=0,left=0, menubar=no, toolbar=no, scrollbars=yes');systemNoticeShow('96');return false;">URL変更に伴う環境設定等の実施のお願い</a></td>
+									</tr>
+	
+									<tr>
+										<td class="notice_date">2021年5月14日</td>
+										<td class="notice_hyodai"><span class="importance">【重要】</span><a href="javascript:void(0);" onmouseover="window.status='SrvPublish';return true" onmousemove="window.status='SrvPublish';return true" onmouseout="window.status='';return true" onclick="javascript:window.open('', 'systemNoticeDetail', 'width=1024, height=680, top=0,left=0, menubar=no, toolbar=no, scrollbars=yes');systemNoticeShow('95');return false;">【行政書士向け】電子調達システム利用のための端末環境について（OpenJDKのバージョン）</a></td>
+									</tr>
+	
+									<tr>
+										<td class="notice_date">2021年4月7日</td>
+										<td class="notice_hyodai"><span class="importance"></span><a href="javascript:void(0);" onmouseover="window.status='SrvPublish';return true" onmousemove="window.status='SrvPublish';return true" onmouseout="window.status='';return true" onclick="javascript:window.open('', 'systemNoticeDetail', 'width=1024, height=680, top=0,left=0, menubar=no, toolbar=no, scrollbars=yes');systemNoticeShow('93');return false;">審査結果通知書等が表示できない、希望票等に添付資料がつけられない事象について（セッションタイムアウト）</a></td>
+									</tr>
+	
+									<tr>
+										<td class="notice_date">2021年3月29日</td>
+										<td class="notice_hyodai"><span class="importance">【重要】</span><a href="javascript:void(0);" onmouseover="window.status='SrvPublish';return true" onmousemove="window.status='SrvPublish';return true" onmouseout="window.status='';return true" onclick="javascript:window.open('', 'systemNoticeDetail', 'width=1024, height=680, top=0,left=0, menubar=no, toolbar=no, scrollbars=yes');systemNoticeShow('90');return false;">東京都電子調達システムWebページのURL（アドレス）変更について</a></td>
+									</tr>
+	
+									<tr>
+										<td class="notice_date">2021年3月25日</td>
+										<td class="notice_hyodai"><span class="importance"></span><a href="javascript:void(0);" onmouseover="window.status='SrvPublish';return true" onmousemove="window.status='SrvPublish';return true" onmouseout="window.status='';return true" onclick="javascript:window.open('', 'systemNoticeDetail', 'width=1024, height=680, top=0,left=0, menubar=no, toolbar=no, scrollbars=yes');systemNoticeShow('91');return false;">複数案件を希望する際の希望順位入力機能の修正について</a></td>
+									</tr>
+	
+								</tbody></table>
+							</div>
+						</div>
+						<div id="keiyaku_notice_title">
+							<h2>契約制度・契約部署からのお知らせ</h2>
+							<div class="title_right">
+								<div class="notice_list">
+									<table>
+										<tbody><tr>
+											<td><a href="javascript:void(0);" onclick="keiyakuArchiveSelect()">過去のお知らせ<br>はこちら</a></td>
+											<td><a href="javascript:void(0);" onclick="keiyakuArchiveSelect()">&gt;</a></td>
+										</tr>
+									</tbody></table>
+								</div>
+							</div>
+						</div>
+						<div id="keiyaku_notice_detail">
+							<div id="keiyaku_notice_list" class="detail_list">
+								<table>
+	
+									<tbody><tr>
+										<td class="notice_date">2022年2月10日</td>
+										<td class="keiyaku_kubun"><span class="keiyakuNotice">契約部署</span></td>
+										<td class="keiyaku_hyodai"><span class="importance">【新着】</span><a href="/documents/pdf20220208193950_27.pdf" target="_blank" onmouseover="window.status='SrvPublish';return true" onmousemove="window.status='SrvPublish';return true" onmouseout="window.status='';return true">さらしのお知らせ（令和4年2月10日～2月15日）</a>
+										<br><span class="kaisoInfo">下水道局経理部契約課 &gt; さらしのお知らせ（令和4年2月10日～2月15日）</span>
+										</td>
+									</tr>
+	
+									<tr>
+										<td class="notice_date">2022年2月10日</td>
+										<td class="keiyaku_kubun"><span class="keiyakuSeido">契約制度</span></td>
+										<td class="keiyaku_hyodai"><span class="importance">【新着】</span><a href="/documents/pdf20220210200635_1.pdf" target="_blank" onmouseover="window.status='SrvPublish';return true" onmousemove="window.status='SrvPublish';return true" onmouseout="window.status='';return true">【別紙１】予定価格の事後公表及び関連する施策の実施について　別表１～９（令和４年４月１日～）</a>
+										<br><span class="kaisoInfo">財務局 &gt; 入札契約制度改革の本格実施について</span>
+										</td>
+									</tr>
+	
+									<tr>
+										<td class="notice_date">2022年2月9日</td>
+										<td class="keiyaku_kubun"><span class="keiyakuNotice">契約部署</span></td>
+										<td class="keiyaku_hyodai"><span class="importance">【新着】</span><a href="/documents/pdf20220208173319_1.pdf" target="_blank" onmouseover="window.status='SrvPublish';return true" onmousemove="window.status='SrvPublish';return true" onmouseout="window.status='';return true">障害者就労促進モデル入札の試行について（令和４年２月９日公表分）</a>
+										<br><span class="kaisoInfo">財務局経理部総務課 &gt; 障害者就労促進モデル入札の試行について</span>
+										</td>
+									</tr>
+	
+									<tr>
+										<td class="notice_date">2022年2月7日</td>
+										<td class="keiyaku_kubun"><span class="keiyakuNotice">契約部署</span></td>
+										<td class="keiyaku_hyodai"><span class="importance"></span><a href="/documents/pdf20220207081439_1.pdf" target="_blank" onmouseover="window.status='SrvPublish';return true" onmousemove="window.status='SrvPublish';return true" onmouseout="window.status='';return true">障害者就労促進モデル入札の試行について（令和４年２月７日公表分）</a>
+										<br><span class="kaisoInfo">財務局経理部総務課 &gt; 障害者就労促進モデル入札の試行について</span>
+										</td>
+									</tr>
+	
+									<tr>
+										<td class="notice_date">2022年2月1日</td>
+										<td class="keiyaku_kubun"><span class="keiyakuSeido">契約制度</span></td>
+										<td class="keiyaku_hyodai"><span class="importance"></span><a href="/documents/pdf20220125210345_1.pdf" target="_blank" onmouseover="window.status='SrvPublish';return true" onmousemove="window.status='SrvPublish';return true" onmouseout="window.status='';return true">令和４年２月１日時点　指名停止中の業者一覧</a>
+										<br><span class="kaisoInfo">財務局 &gt; 指名停止等</span>
+										</td>
+									</tr>
+	
+									<tr>
+										<td class="notice_date">2022年1月31日</td>
+										<td class="keiyaku_kubun"><span class="keiyakuNotice">契約部署</span></td>
+										<td class="keiyaku_hyodai"><span class="importance"></span><a href="/documents/pdf20220128205208_1.pdf" target="_blank" onmouseover="window.status='SrvPublish';return true" onmousemove="window.status='SrvPublish';return true" onmouseout="window.status='';return true">印刷請負に係る最低制限価格制度の試行について（Ｒ4年１月31日公表分）</a>
+										<br><span class="kaisoInfo">財務局経理部総務課 &gt; 印刷請負に係る最低制限価格制度の試行について</span>
+										</td>
+									</tr>
+	
+									<tr>
+										<td class="notice_date">2022年1月31日</td>
+										<td class="keiyaku_kubun"><span class="keiyakuNotice">契約部署</span></td>
+										<td class="keiyaku_hyodai"><span class="importance"></span><a href="/documents/pdf20220128183210_1.pdf" target="_blank" onmouseover="window.status='SrvPublish';return true" onmousemove="window.status='SrvPublish';return true" onmouseout="window.status='';return true">障害者就労促進モデル入札の試行について（令和４年１月31日分）</a>
+										<br><span class="kaisoInfo">財務局経理部総務課 &gt; 障害者就労促進モデル入札の試行について</span>
+										</td>
+									</tr>
+	
+									<tr>
+										<td class="notice_date">2022年1月31日</td>
+										<td class="keiyaku_kubun"><span class="keiyakuNotice">契約部署</span></td>
+										<td class="keiyaku_hyodai"><span class="importance"></span><a href="/documents/pdf20220128074751_1.pdf" target="_blank" onmouseover="window.status='SrvPublish';return true" onmousemove="window.status='SrvPublish';return true" onmouseout="window.status='';return true">印刷請負に係る最低制限価格制度の試行について（Ｒ4年１月31日公表分）</a>
+										<br><span class="kaisoInfo">財務局経理部総務課 &gt; 印刷請負に係る最低制限価格制度の試行について</span>
+										</td>
+									</tr>
+	
+									<tr>
+										<td class="notice_date">2022年1月28日</td>
+										<td class="keiyaku_kubun"><span class="keiyakuSeido">契約制度</span></td>
+										<td class="keiyaku_hyodai"><span class="importance"></span><a href="/documents/pdf20220124131328_1.pdf" target="_blank" onmouseover="window.status='SrvPublish';return true" onmousemove="window.status='SrvPublish';return true" onmouseout="window.status='';return true">「技術者育成モデルJV工事」の発注予定について</a>
+										<br><span class="kaisoInfo">財務局</span>
+										</td>
+									</tr>
+	
+									<tr>
+										<td class="notice_date">2022年1月27日</td>
+										<td class="keiyaku_kubun"><span class="keiyakuSeido">契約制度</span></td>
+										<td class="keiyaku_hyodai"><span class="importance"></span><a href="/documents/pdf20220126205631_1.pdf" target="_blank" onmouseover="window.status='SrvPublish';return true" onmousemove="window.status='SrvPublish';return true" onmouseout="window.status='';return true">令和４年１月25日報告分</a>
+										<br><span class="kaisoInfo">財務局 &gt; 優良工事・優良設計等委託関係</span>
+										</td>
+									</tr>
+	
+									<tr>
+										<td class="notice_date">2022年1月27日</td>
+										<td class="keiyaku_kubun"><span class="keiyakuSeido">契約制度</span></td>
+										<td class="keiyaku_hyodai"><span class="importance"></span><a href="/documents/pdf20220126205302_1.pdf" target="_blank" onmouseover="window.status='SrvPublish';return true" onmousemove="window.status='SrvPublish';return true" onmouseout="window.status='';return true">令和４年１月26日時点　入札参加禁止中の業者一覧</a>
+										<br><span class="kaisoInfo">財務局 &gt; 入札参加禁止</span>
+										</td>
+									</tr>
+	
+									<tr>
+										<td class="notice_date">2022年1月26日</td>
+										<td class="keiyaku_kubun"><span class="keiyakuSeido">契約制度</span></td>
+										<td class="keiyaku_hyodai"><span class="importance"></span><a href="/documents/pdf20220126113327_1.pdf" target="_blank" onmouseover="window.status='SrvPublish';return true" onmousemove="window.status='SrvPublish';return true" onmouseout="window.status='';return true">工事請負指名競争入札参加者指名基準（令和４年４月１日以降に公告等を行った案件から対象）</a>
+										<br><span class="kaisoInfo">財務局 &gt; 指名基準</span>
+										</td>
+									</tr>
+	
+									<tr>
+										<td class="notice_date">2022年1月26日</td>
+										<td class="keiyaku_kubun"><span class="keiyakuSeido">契約制度</span></td>
+										<td class="keiyaku_hyodai"><span class="importance"></span><a href="/documents/pdf20220125211758_1.pdf" target="_blank" onmouseover="window.status='SrvPublish';return true" onmousemove="window.status='SrvPublish';return true" onmouseout="window.status='';return true">令和４年１月25日付即日指名停止等業者一覧</a>
+										<br><span class="kaisoInfo">財務局 &gt; 指名停止等</span>
+										</td>
+									</tr>
+	
+									<tr>
+										<td class="notice_date">2022年1月25日</td>
+										<td class="keiyaku_kubun"><span class="keiyakuNotice">契約部署</span></td>
+										<td class="keiyaku_hyodai"><span class="importance"></span><a href="/documents/pdf20220124221049_1.pdf" target="_blank" onmouseover="window.status='SrvPublish';return true" onmousemove="window.status='SrvPublish';return true" onmouseout="window.status='';return true">印刷請負に係る最低制限価格制度の試行について（Ｒ4年１月25日公表分）</a>
+										<br><span class="kaisoInfo">財務局経理部総務課 &gt; 印刷請負に係る最低制限価格制度の試行について</span>
+										</td>
+									</tr>
+	
+									<tr>
+										<td class="notice_date">2022年1月21日</td>
+										<td class="keiyaku_kubun"><span class="keiyakuSeido">契約制度</span></td>
+										<td class="keiyaku_hyodai"><span class="importance"></span><a href="/documents/pdf20220120172210_1.pdf" target="_blank" onmouseover="window.status='SrvPublish';return true" onmousemove="window.status='SrvPublish';return true" onmouseout="window.status='';return true">第１回入札監視委員会第二監視部会　議事録</a>
+										<br><span class="kaisoInfo">財務局 &gt; 東京都入札監視委員会関連 &gt; 令和３年度</span>
+										</td>
+									</tr>
+	
+									<tr>
+										<td class="notice_date">2022年1月21日</td>
+										<td class="keiyaku_kubun"><span class="keiyakuSeido">契約制度</span></td>
+										<td class="keiyaku_hyodai"><span class="importance"></span><a href="/documents/pdf20220120171832_1.pdf" target="_blank" onmouseover="window.status='SrvPublish';return true" onmousemove="window.status='SrvPublish';return true" onmouseout="window.status='';return true">第１回入札監視委員会第二監視部会　審議概要</a>
+										<br><span class="kaisoInfo">財務局 &gt; 東京都入札監視委員会関連 &gt; 令和３年度</span>
+										</td>
+									</tr>
+	
+									<tr>
+										<td class="notice_date">2022年1月21日</td>
+										<td class="keiyaku_kubun"><span class="keiyakuSeido">契約制度</span></td>
+										<td class="keiyaku_hyodai"><span class="importance"></span><a href="/documents/pdf20220120163425_1.pdf" target="_blank" onmouseover="window.status='SrvPublish';return true" onmousemove="window.status='SrvPublish';return true" onmouseout="window.status='';return true">第１回入札監視委員会第二監視部会　資料</a>
+										<br><span class="kaisoInfo">財務局 &gt; 東京都入札監視委員会関連 &gt; 令和３年度</span>
+										</td>
+									</tr>
+	
+									<tr>
+										<td class="notice_date">2022年1月17日</td>
+										<td class="keiyaku_kubun"><span class="keiyakuNotice">契約部署</span></td>
+										<td class="keiyaku_hyodai"><span class="importance"></span><a href="/documents/pdf20220114220721_1.pdf" target="_blank" onmouseover="window.status='SrvPublish';return true" onmousemove="window.status='SrvPublish';return true" onmouseout="window.status='';return true">印刷請負に係る最低制限価格制度の試行について（Ｒ4年１月17日公表分）</a>
+										<br><span class="kaisoInfo">財務局経理部総務課 &gt; 印刷請負に係る最低制限価格制度の試行について</span>
+										</td>
+									</tr>
+	
+									<tr>
+										<td class="notice_date">2022年1月13日</td>
+										<td class="keiyaku_kubun"><span class="keiyakuNotice">契約部署</span></td>
+										<td class="keiyaku_hyodai"><span class="importance"></span><a href="/documents/pdf20220112190448_1.pdf" target="_blank" onmouseover="window.status='SrvPublish';return true" onmousemove="window.status='SrvPublish';return true" onmouseout="window.status='';return true">印刷請負に係る最低制限価格制度の試行について（Ｒ4年１月13日公表分）</a>
+										<br><span class="kaisoInfo">財務局経理部総務課 &gt; 印刷請負に係る最低制限価格制度の試行について</span>
+										</td>
+									</tr>
+	
+									<tr>
+										<td class="notice_date">2022年1月11日</td>
+										<td class="keiyaku_kubun"><span class="keiyakuNotice">契約部署</span></td>
+										<td class="keiyaku_hyodai"><span class="importance"></span><a href="/documents/pdf20220107133643_1.pdf" target="_blank" onmouseover="window.status='SrvPublish';return true" onmousemove="window.status='SrvPublish';return true" onmouseout="window.status='';return true">印刷請負に係る最低制限価格制度の試行について（Ｒ4年１月11日公表分）</a>
+										<br><span class="kaisoInfo">財務局経理部総務課 &gt; 印刷請負に係る最低制限価格制度の試行について</span>
+										</td>
+									</tr>
+	
+									<tr>
+										<td class="notice_date">2021年12月23日</td>
+										<td class="keiyaku_kubun"><span class="keiyakuSeido">契約制度</span></td>
+										<td class="keiyaku_hyodai"><span class="importance"></span><a href="/documents/pdf20211222223721_1.pdf" target="_blank" onmouseover="window.status='SrvPublish';return true" onmousemove="window.status='SrvPublish';return true" onmouseout="window.status='';return true">令和３年12月21日報告分</a>
+										<br><span class="kaisoInfo">財務局</span>
+										</td>
+									</tr>
+	
+									<tr>
+										<td class="notice_date">2021年12月23日</td>
+										<td class="keiyaku_kubun"><span class="keiyakuSeido">契約制度</span></td>
+										<td class="keiyaku_hyodai"><span class="importance"></span><a href="/documents/pdf20211222223721_1.pdf" target="_blank" onmouseover="window.status='SrvPublish';return true" onmousemove="window.status='SrvPublish';return true" onmouseout="window.status='';return true">令和３年12月21日報告分</a>
+										<br><span class="kaisoInfo">財務局 &gt; 優良工事・優良設計等委託関係</span>
+										</td>
+									</tr>
+	
+									<tr>
+										<td class="notice_date">2021年12月23日</td>
+										<td class="keiyaku_kubun"><span class="keiyakuSeido">契約制度</span></td>
+										<td class="keiyaku_hyodai"><span class="importance"></span><a href="/documents/pdf20211222223450_1.pdf" target="_blank" onmouseover="window.status='SrvPublish';return true" onmousemove="window.status='SrvPublish';return true" onmouseout="window.status='';return true">令和３年12月22日時点　入札参加禁止中の業者一覧</a>
+										<br><span class="kaisoInfo">財務局 &gt; 入札参加禁止</span>
+										</td>
+									</tr>
+	
+									<tr>
+										<td class="notice_date">2021年12月22日</td>
+										<td class="keiyaku_kubun"><span class="keiyakuNotice">契約部署</span></td>
+										<td class="keiyaku_hyodai"><span class="importance"></span><a href="/documents/pdf20211221225158_1.pdf" target="_blank" onmouseover="window.status='SrvPublish';return true" onmousemove="window.status='SrvPublish';return true" onmouseout="window.status='';return true">印刷請負に係る最低制限価格制度の試行について（Ｒ3年12月22日公表分）</a>
+										<br><span class="kaisoInfo">財務局経理部総務課 &gt; 印刷請負に係る最低制限価格制度の試行について</span>
+										</td>
+									</tr>
+	
+									<tr>
+										<td class="notice_date">2021年12月20日</td>
+										<td class="keiyaku_kubun"><span class="keiyakuNotice">契約部署</span></td>
+										<td class="keiyaku_hyodai"><span class="importance"></span><a href="/documents/pdf20211216200009_1.pdf" target="_blank" onmouseover="window.status='SrvPublish';return true" onmousemove="window.status='SrvPublish';return true" onmouseout="window.status='';return true">印刷請負に係る最低制限価格制度の試行について（Ｒ3年12月20日公表分）</a>
+										<br><span class="kaisoInfo">財務局経理部総務課 &gt; 印刷請負に係る最低制限価格制度の試行について</span>
+										</td>
+									</tr>
+	
+									<tr>
+										<td class="notice_date">2021年12月16日</td>
+										<td class="keiyaku_kubun"><span class="keiyakuSeido">契約制度</span></td>
+										<td class="keiyaku_hyodai"><span class="importance"></span><a href="/documents/pdf20211216115904_1.pdf" target="_blank" onmouseover="window.status='SrvPublish';return true" onmousemove="window.status='SrvPublish';return true" onmouseout="window.status='';return true">準備契約案件における落札後辞退に関する注意事項</a>
+										<br><span class="kaisoInfo">交通局 &gt; 指名基準</span>
+										</td>
+									</tr>
+	
+									<tr>
+										<td class="notice_date">2021年12月14日</td>
+										<td class="keiyaku_kubun"><span class="keiyakuSeido">契約制度</span></td>
+										<td class="keiyaku_hyodai"><span class="importance"></span><a href="/documents/pdf20211214113423_1.pdf" target="_blank" onmouseover="window.status='SrvPublish';return true" onmousemove="window.status='SrvPublish';return true" onmouseout="window.status='';return true">準備契約案件における落札後辞退に関する注意事項</a>
+										<br><span class="kaisoInfo">水道局 &gt; 指名停止等</span>
+										</td>
+									</tr>
+	
+									<tr>
+										<td class="notice_date">2021年12月7日</td>
+										<td class="keiyaku_kubun"><span class="keiyakuSeido">契約制度</span></td>
+										<td class="keiyaku_hyodai"><span class="importance"></span><a href="/documents/pdf20211207155313_1.pdf" target="_blank" onmouseover="window.status='SrvPublish';return true" onmousemove="window.status='SrvPublish';return true" onmouseout="window.status='';return true">準備契約案件における落札後辞退に関する注意事項</a>
+										<br><span class="kaisoInfo">財務局 &gt; 指名停止等</span>
+										</td>
+									</tr>
+	
+									<tr>
+										<td class="notice_date">2021年12月1日</td>
+										<td class="keiyaku_kubun"><span class="keiyakuNotice">契約部署</span></td>
+										<td class="keiyaku_hyodai"><span class="importance"></span><a href="/documents/pdf20211130154424_1.pdf" target="_blank" onmouseover="window.status='SrvPublish';return true" onmousemove="window.status='SrvPublish';return true" onmouseout="window.status='';return true">印刷請負に係る最低制限価格制度の試行について（Ｒ3年12月１日公表分）</a>
+										<br><span class="kaisoInfo">財務局経理部総務課 &gt; 印刷請負に係る最低制限価格制度の試行について</span>
+										</td>
+									</tr>
+	
+									<tr>
+										<td class="notice_date">2021年12月1日</td>
+										<td class="keiyaku_kubun"><span class="keiyakuSeido">契約制度</span></td>
+										<td class="keiyaku_hyodai"><span class="importance"></span><a href="/documents/pdf20210714150841_1.pdf" target="_blank" onmouseover="window.status='SrvPublish';return true" onmousemove="window.status='SrvPublish';return true" onmouseout="window.status='';return true">東京都工事契約関係資料（統計データ）</a>
+										<br><span class="kaisoInfo">財務局 &gt; 東京都における工事契約の状況について</span>
+										</td>
+									</tr>
+	
+									<tr>
+										<td class="notice_date">2021年11月25日</td>
+										<td class="keiyaku_kubun"><span class="keiyakuNotice">契約部署</span></td>
+										<td class="keiyaku_hyodai"><span class="importance"></span><a href="/documents/pdf20211124164932_1.pdf" target="_blank" onmouseover="window.status='SrvPublish';return true" onmousemove="window.status='SrvPublish';return true" onmouseout="window.status='';return true">印刷請負に係る最低制限価格制度の試行について（Ｒ3年11月25日公表分）</a>
+										<br><span class="kaisoInfo">財務局経理部総務課 &gt; 印刷請負に係る最低制限価格制度の試行について</span>
+										</td>
+									</tr>
+	
+									<tr>
+										<td class="notice_date">2021年11月24日</td>
+										<td class="keiyaku_kubun"><span class="keiyakuNotice">契約部署</span></td>
+										<td class="keiyaku_hyodai"><span class="importance"></span><a href="/documents/pdf20211122153958_1.pdf" target="_blank" onmouseover="window.status='SrvPublish';return true" onmousemove="window.status='SrvPublish';return true" onmouseout="window.status='';return true">印刷請負に係る最低制限価格制度の試行について（Ｒ3年11月24日公表分）</a>
+										<br><span class="kaisoInfo">財務局経理部総務課 &gt; 印刷請負に係る最低制限価格制度の試行について</span>
+										</td>
+									</tr>
+	
+									<tr>
+										<td class="notice_date">2021年11月19日</td>
+										<td class="keiyaku_kubun"><span class="keiyakuNotice">契約部署</span></td>
+										<td class="keiyaku_hyodai"><span class="importance"></span><a href="/documents/pdf20211118202013_1.pdf" target="_blank" onmouseover="window.status='SrvPublish';return true" onmousemove="window.status='SrvPublish';return true" onmouseout="window.status='';return true">印刷請負に係る最低制限価格制度の試行について（Ｒ3年11月19日公表分）</a>
+										<br><span class="kaisoInfo">財務局経理部総務課 &gt; 印刷請負に係る最低制限価格制度の試行について</span>
+										</td>
+									</tr>
+	
+									<tr>
+										<td class="notice_date">2021年11月18日</td>
+										<td class="keiyaku_kubun"><span class="keiyakuSeido">契約制度</span></td>
+										<td class="keiyaku_hyodai"><span class="importance"></span><a href="/documents/pdf20211118083420_1.pdf" target="_blank" onmouseover="window.status='SrvPublish';return true" onmousemove="window.status='SrvPublish';return true" onmouseout="window.status='';return true">令和３年11月16日報告分</a>
+										<br><span class="kaisoInfo">財務局 &gt; 優良工事・優良設計等委託関係</span>
+										</td>
+									</tr>
+	
+									<tr>
+										<td class="notice_date">2021年11月18日</td>
+										<td class="keiyaku_kubun"><span class="keiyakuSeido">契約制度</span></td>
+										<td class="keiyaku_hyodai"><span class="importance"></span><a href="/documents/pdf20211118091417_1.pdf" target="_blank" onmouseover="window.status='SrvPublish';return true" onmousemove="window.status='SrvPublish';return true" onmouseout="window.status='';return true">令和３年11月17日時点　入札参加禁止中の業者一覧</a>
+										<br><span class="kaisoInfo">財務局 &gt; 入札参加禁止</span>
+										</td>
+									</tr>
+	
+									<tr>
+										<td class="notice_date">2021年11月18日</td>
+										<td class="keiyaku_kubun"><span class="keiyakuSeido">契約制度</span></td>
+										<td class="keiyaku_hyodai"><span class="importance"></span><a href="/documents/pdf20211118150523_1.pdf" target="_blank" onmouseover="window.status='SrvPublish';return true" onmousemove="window.status='SrvPublish';return true" onmouseout="window.status='';return true">「技術者育成モデルJV工事」の発注予定について</a>
+										<br><span class="kaisoInfo">財務局</span>
+										</td>
+									</tr>
+	
+								</tbody></table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+
+
+		<div id="footer" class="clearfix" style="font-size: 100%;">
+			<ul class="footer_menu clearfix">
+				<li class="bar">|</li>
+				<li><a href="#" onclick="loadHTML(1);">問合せ</a></li>
+				<li class="bar">|</li>
+				<li><a href="#" onclick="loadHTML(2);">利用規約</a></li>
+				<li class="bar">|</li>
+				<li><a href="#" onclick="loadHTML(3);">サイトマップ</a></li>
+				<li class="bar">|</li>
+			</ul>
+		</div>
+
+
+
+</body></html>
