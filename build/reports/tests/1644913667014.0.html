@@ -1,0 +1,804 @@
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=Windows-31J">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>入札情報サービス</title>
+
+
+
+
+
+
+
+
+
+
+<script src="OuterClear_html.js?cver20220215"></script>
+<script src="ComSubmit_html.js?cver20220215"></script>
+<link rel="stylesheet" type="text/css" href="PbiStyle.css">
+</head>
+<body oncontextmenu="return false">
+ <div class="topHeader"></div>
+ <div class="leftMenu">
+	
+
+
+
+
+
+<link rel="stylesheet" type="text/css" href="PbiMenu.css">
+<script src="chatbot.js"></script>
+<script>
+  <!--
+  /* 入札情報サービスのsubmitを行う */
+  function cmnExec(action) {
+    top.location.href = action;
+  }
+
+  /* 電子入札のsubmitを行う */
+  function ebdExec(action) {
+    top.location.href = action;
+  }
+
+  /* 資格審査のsubmitを行う */
+  function qerExec(action) {
+    top.location.href = action;
+  }
+  //-->
+  </script>
+<div>
+  <img title="東京都ロゴ" align="left" style="background-color: #FFFFFF;" alt="東京都ロゴ" src="image/cmnMenuLogo.png" border="0">
+</div>
+<div>
+  <h4 class="menuAffair">業務メニュー</h4>
+  <ul class="leftMenuBtnList">
+  <li class="leftMenuBtn01">
+    <a href="javascript:SelectTargetSubmit(3,1,'_top')" onmouseover="window.status='東京都公報特定調達公告版';return true" onmousemove="window.status='東京都公報特定調達公告版';return true" onmouseout="window.status='';return true">
+      東京都公報特定調達公告版
+    </a>
+  </li>
+  <li class="leftMenuBtn02">
+    <a href="javascript:SelectTargetSubmit(3,2,'_top')" onmouseover="window.status='年間発注予定情報';return true" onmousemove="window.status='年間発注予定情報';return true" onmouseout="window.status='';return true">
+      年間発注予定情報
+    </a>
+  </li>
+  <li class="leftMenuBtn02">
+    <a href="javascript:SelectTargetSubmit(3,3,'_top')" onmouseover="window.status='発注予定情報';return true" onmousemove="window.status='発注予定情報';return true" onmouseout="window.status='';return true">
+      発注予定情報
+    </a>
+  </li>
+  <li class="leftMenuBtn02">
+    <a href="javascript:SelectTargetSubmit(3,4,'_top')" onmouseover="window.status='入札(見積)経過情報';return true" onmousemove="window.status='入札(見積)経過情報';return true" onmouseout="window.status='';return true">
+      入札(見積)経過情報
+    </a>
+  </li>
+  <li class="leftMenuBtn02">
+    <a href="javascript:SelectTargetSubmit(3,14,'_top')" onmouseover="window.status='入札結果一覧';return true" onmousemove="window.status='入札結果一覧';return true" onmouseout="window.status='';return true">
+      入札結果一覧
+    </a>
+  </li>
+  <li class="leftMenuBtn01">
+    <a href="javascript:SelectTargetSubmit(14,1,'_top')" onmouseover="window.status='競争入札参加有資格者名簿';return true" onmousemove="window.status='競争入札参加有資格者名簿';return true" onmouseout="window.status='';return true">
+      競争入札参加有資格者名簿
+    </a>
+  </li>
+  <li class="leftMenuBtn02">
+    <a href="javascript:SelectTargetSubmit(3,11,'_top')" onmouseover="window.status='入札参加資格関係';return true" onmousemove="window.status='入札参加資格関係';return true" onmouseout="window.status='';return true">
+      入札参加資格関係
+    </a>
+  </li>
+  </ul>
+</div>
+<div id="mobileQR">
+  <a href="indexPbiToSp.jsp" target="_top" onmouseover="window.status='モバイル版';return true" onmousemove="window.status='モバイル版';return true" onmouseout="window.status='';return true">
+    <img alt="モバイル版はこちら" src="image/pbiMenuSPLinkQR.png" border="0">
+  </a>
+  <p style="margin: 4px; width: 130px; line-height: 1.8em; font-size: 13px;">モバイル版は、発注予定情報と入札（見積）経過情報に対応しています。</p>
+</div>
+<div>
+  <h4 class="menuAffair">関連ページへ</h4>
+  <ul class="leftMenuBtnList">
+  <li class="leftMenuBtn03">
+    <a href="#" onclick="cmnExec('/index.jsp')" onmouseover="window.status='電子調達システム';return true" onmousemove="window.status='電子調達システム';return true" onmouseout="window.status='';return true">
+      電子調達システム(TOP)
+    </a>
+  </li>
+  <li class="leftMenuBtn04">
+    <a href="#" onclick="ebdExec('https://www.e-procurement.metro.tokyo.lg.jp/ebd/index.jsp')" onmouseover="window.status='電子入札';return true" onmousemove="window.status='電子入札';return true" onmouseout="window.status='';return true">
+      電 子 入 札
+    </a>
+  </li>
+  <li class="leftMenuBtn04">
+    <a href="#" onclick="qerExec('https://www.e-procurement.metro.tokyo.lg.jp/qer/index.jsp')" onmouseover="window.status='資格審査';return true" onmousemove="window.status='資格審査';return true" onmouseout="window.status='';return true">
+      資 格 審 査
+    </a>
+  </li>
+  </ul>
+</div>
+<div>
+  <a onclick="openChatBotWin();" href="javascript:void(0);"><img src="image/chatbot.png" title="チャットボッド" alt="チャットボッド" style="margin: 10px 0px 0px 5px; width: 166px; border: 0;"></a>
+</div>
+<div>
+  <h4 class="menuAffair">リンク</h4>
+  <ul class="link">
+  <li>
+    <a href="https://www.e-tokyo.lg.jp/choutatu_ppij/cmn/tmg/cmn/jsp/indexQ.jsp" target="_top">
+      東京電子自治体共同運営
+    </a>
+  </li>
+  <li>
+    <a href="https://www.metro.tokyo.lg.jp/index.html" target="_top">
+      東京都公式ホームページ
+    </a>
+  </li>
+  </ul>
+</div>
+ </div>
+ <div class="contents">
+<div class="align-center">
+
+<form name="main" method="POST" action="SrvPublish">
+<input type="hidden" name="page">
+<input type="hidden" name="act">
+<input type="hidden" name="consGoodsType">
+<input type="hidden" name="cont_no">
+<input type="hidden" name="index">
+<table class="TABLEdefault">
+	<tbody>
+		<tr>
+			<td valign="bottom">&nbsp;</td>
+			<td align="right" rowspan="2">
+				<h2 class="denshi_nyu">
+					<span>入札情報サービス</span>
+				</h2>
+			</td>
+		</tr>
+		<tr valign="top">
+			<td>
+				<h3 class="c_ti01">
+					<span>業務メニュー</span>
+				</h3>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<table class="TABLEdefault">
+<tbody><tr>
+<td class="align-center"><h1 class="pbiTitle"><span>発注予定　案件一覧</span></h1></td>
+</tr>
+
+</tbody></table>
+
+
+<table class="TABLEdefault">
+<tbody><tr>
+
+<td class="all-page">総件数　7件</td>
+<td class="current-page">1/1</td>
+</tr>
+</tbody></table>
+
+<table class="TABLEdefault">
+	<tbody><tr>
+		<td class="areaTitle"><strong>発注予定案件</strong></td>
+		
+		<td class="areaTitle">
+					<div class="pagination">
+					
+					      &nbsp;
+			     
+					</div>
+					<div class="pagination">
+					
+					</div>
+		</td>
+	</tr>
+</tbody></table>
+
+
+<table class="list-data">
+<colgroup>
+    <col width="6%">
+    <col width="6%">
+    <col width="24%">
+    <col width="9%">
+    <col width="9%">
+    <col width="9%">
+    <col width="6%">
+    <col width="6%">
+    <col width="8%">
+    <col width="8%">
+    <col width="9%">
+</colgroup>
+<tbody><tr>
+<th>
+    <strong>公表日</strong>
+</th>
+<th>
+    <strong>契約<br>番号</strong>
+</th>
+<th>
+    <strong>件名</strong><br>
+    <strong class="expRed">（クリックで発注予定表を表<br>示します）</strong>
+</th>
+
+  <th>
+    <strong>業種</strong>
+  </th>
+
+<th>
+    <strong>履行期間</strong>
+</th>
+<th>
+    <strong>契約方法</strong>
+</th>
+<th>
+    <strong>発注<br>等級</strong>
+</th>
+<th>
+    <strong>受付<br>等級</strong>
+</th>
+<th>
+    <strong>希望申請期<br>間</strong>
+</th>
+<th>
+    <strong>希望票等<br>受付状況</strong>
+</th>
+<th>
+    <strong>希望票等<br>提出先</strong>
+</th>
+</tr>
+
+
+
+<tr>
+
+
+
+<td class="light-green">令和4年2月15日 </td>
+
+
+
+<td>03-10187</td>
+
+
+
+<td><strong class="expRed">【電子】</strong>
+
+	
+	<a href="javascript:SelectSubmitNo(7,3,0,3039111750399610)" onmouseover="window.status='発注予定表へ';return true" onmousemove="window.status='発注予定表へ';return true" onmouseout="window.status='';return true">
+	
+		
+		<font size="-1">都電荒川線巣鴨新田停留場上屋建替え工事</font>
+	
+	</a>
+	
+
+	
+
+	
+</td>
+
+
+
+    <td>建築工事</td>
+
+
+
+<td>契約締結の日から令和4年8月31日まで</td>
+
+
+
+<td>希望制指名競争入札</td>
+
+
+
+<td>D</td>
+
+
+<td style="word-break:break-all">
+
+C,D</td>
+
+
+
+<td>2月15日 ～2月22日 </td>
+
+
+
+
+<td class="align-center">受付中</td>
+
+
+
+<td class="align-center">
+<input type="hidden" name="odPlan.getContBureau()" 080="">
+<input type="hidden" name="odPlan.getKikouBureau()" 080="">
+<input type="hidden" name="sContBureau" 交通局="">
+<input type="hidden" name="sBureauType" 1="">
+<input type="hidden" name="sDivisionSectionName" 交通局資産運用部契約課="">
+
+交通局資産運用部契約課</td>
+
+</tr>
+
+
+<tr>
+
+
+
+<td class="light-green">令和4年2月15日 </td>
+
+
+
+<td>03-18037</td>
+
+
+
+<td><strong class="expRed">【電子】</strong>
+
+	
+	<a href="javascript:SelectSubmitNo(7,3,1,3039111750394699)" onmouseover="window.status='発注予定表へ';return true" onmousemove="window.status='発注予定表へ';return true" onmouseout="window.status='';return true">
+	
+		
+		<font size="-1">バス停留所ガードレール等工事工種別単価請負工事</font>
+	
+	</a>
+	
+
+	
+
+	
+</td>
+
+
+
+    <td>ガードレール</td>
+
+
+
+<td>令和4年4月1日から令和5年3月31日まで</td>
+
+
+
+<td>希望制指名競争入札</td>
+
+
+
+<td>順位格付</td>
+
+
+<td style="word-break:break-all">
+
+順位格付</td>
+
+
+
+<td>2月15日 ～2月22日 </td>
+
+
+
+
+<td class="align-center">受付中</td>
+
+
+
+<td class="align-center">
+<input type="hidden" name="odPlan.getContBureau()" 080="">
+<input type="hidden" name="odPlan.getKikouBureau()" 080="">
+<input type="hidden" name="sContBureau" 交通局="">
+<input type="hidden" name="sBureauType" 1="">
+<input type="hidden" name="sDivisionSectionName" 交通局資産運用部契約課="">
+
+交通局資産運用部契約課</td>
+
+</tr>
+
+
+<tr>
+
+
+
+<td class="light-green">令和4年2月10日 </td>
+
+
+
+<td>03-00774</td>
+
+
+
+<td><strong class="expRed">【電子】</strong>
+
+	
+	<a href="javascript:SelectSubmitNo(7,3,2,3039791939298316)" onmouseover="window.status='発注予定表へ';return true" onmousemove="window.status='発注予定表へ';return true" onmouseout="window.status='';return true">
+	
+		
+		<font size="-1">都立府中高等学校(４)改築及び改修工事</font>
+	
+	</a>
+	
+
+	
+
+	
+</td>
+
+
+
+    <td>建築工事</td>
+
+
+
+<td>契約確定の日の翌日から令和6年9月30日まで</td>
+
+
+
+<td>一般競争入札</td>
+
+
+
+<td>A</td>
+
+
+<td style="word-break:break-all">
+
+A,B,C,D,E,X,JV</td>
+
+
+
+<td>2月18日 ～2月24日 </td>
+
+
+
+
+<td class="align-center">受付前</td>
+
+
+
+<td class="align-center">
+<input type="hidden" name="odPlan.getContBureau()" 006="">
+<input type="hidden" name="odPlan.getKikouBureau()" 006="">
+<input type="hidden" name="sContBureau" 財務局="">
+<input type="hidden" name="sBureauType" 1="">
+<input type="hidden" name="sDivisionSectionName" 財務局経理部契約第一課="">
+
+財務局経理部契約第一課</td>
+
+</tr>
+
+
+<tr>
+
+
+
+<td class="light-green">令和4年2月10日 </td>
+
+
+
+<td>03-00775</td>
+
+
+
+<td><strong class="expRed">【電子】</strong>
+
+	
+	<a href="javascript:SelectSubmitNo(7,3,3,3039791939298416)" onmouseover="window.status='発注予定表へ';return true" onmousemove="window.status='発注予定表へ';return true" onmouseout="window.status='';return true">
+	
+		
+		<font size="-1">新砂水門(再整備)(４)建設工事</font>
+	
+	</a>
+	
+
+	
+
+	
+</td>
+
+
+
+    <td>河川工事</td>
+
+
+
+<td>契約確定の日の翌日から令和5年11月30日まで</td>
+
+
+
+<td>一般競争入札</td>
+
+
+
+<td>A</td>
+
+
+<td style="word-break:break-all">
+
+A,JV</td>
+
+
+
+<td>2月18日 ～2月24日 </td>
+
+
+
+
+<td class="align-center">受付前</td>
+
+
+
+<td class="align-center">
+<input type="hidden" name="odPlan.getContBureau()" 006="">
+<input type="hidden" name="odPlan.getKikouBureau()" 019="">
+<input type="hidden" name="sContBureau" 財務局="">
+<input type="hidden" name="sBureauType" 1="">
+<input type="hidden" name="sDivisionSectionName" 財務局経理部契約第一課="">
+
+財務局経理部契約第一課</td>
+
+</tr>
+
+
+<tr>
+
+
+
+<td class="light-green">令和4年2月10日 </td>
+
+
+
+<td>03-00777</td>
+
+
+
+<td><strong class="expRed">【電子】</strong>
+
+	
+	<a href="javascript:SelectSubmitNo(7,3,4,3039791939298616)" onmouseover="window.status='発注予定表へ';return true" onmousemove="window.status='発注予定表へ';return true" onmouseout="window.status='';return true">
+	
+		
+		<font size="-1">呑川防潮堤耐震補強工事(その208)</font>
+	
+	</a>
+	
+
+	
+
+	
+</td>
+
+
+
+    <td>河川工事</td>
+
+
+
+<td>契約確定の日の翌日から令和6年12月4日まで</td>
+
+
+
+<td>一般競争入札(技術実績評価型総合評価方式)</td>
+
+
+
+<td>A</td>
+
+
+<td style="word-break:break-all">
+
+A,JV</td>
+
+
+
+<td>2月18日 ～2月24日 </td>
+
+
+
+
+<td class="align-center">受付前</td>
+
+
+
+<td class="align-center">
+<input type="hidden" name="odPlan.getContBureau()" 006="">
+<input type="hidden" name="odPlan.getKikouBureau()" 017="">
+<input type="hidden" name="sContBureau" 財務局="">
+<input type="hidden" name="sBureauType" 1="">
+<input type="hidden" name="sDivisionSectionName" 財務局経理部契約第一課="">
+
+財務局経理部契約第一課</td>
+
+</tr>
+
+
+<tr>
+
+
+
+<td class="light-green">令和4年2月10日 </td>
+
+
+
+<td>03-00779</td>
+
+
+
+<td><strong class="expRed">【電子】</strong>
+
+	
+	<a href="javascript:SelectSubmitNo(7,3,5,3039791939298816)" onmouseover="window.status='発注予定表へ';return true" onmousemove="window.status='発注予定表へ';return true" onmouseout="window.status='';return true">
+	
+		
+		<font size="-1">綾瀬川護岸耐震補強工事(その211)その２</font>
+	
+	</a>
+	
+
+	
+
+	
+</td>
+
+
+
+    <td>河川工事</td>
+
+
+
+<td>契約確定の日の翌日から令和6年1月29日まで</td>
+
+
+
+<td>一般競争入札(技術実績評価型総合評価方式)</td>
+
+
+
+<td>A</td>
+
+
+<td style="word-break:break-all">
+
+A,JV</td>
+
+
+
+<td>2月18日 ～2月24日 </td>
+
+
+
+
+<td class="align-center">受付前</td>
+
+
+
+<td class="align-center">
+<input type="hidden" name="odPlan.getContBureau()" 006="">
+<input type="hidden" name="odPlan.getKikouBureau()" 017="">
+<input type="hidden" name="sContBureau" 財務局="">
+<input type="hidden" name="sBureauType" 1="">
+<input type="hidden" name="sDivisionSectionName" 財務局経理部契約第一課="">
+
+財務局経理部契約第一課</td>
+
+</tr>
+
+
+<tr>
+
+
+
+<td class="light-green">令和4年1月12日 </td>
+
+
+
+<td>03-00737</td>
+
+
+
+<td>
+
+	
+	<a href="javascript:SelectSubmitNo(7,3,6,3039791939294616)" onmouseover="window.status='発注予定表へ';return true" onmousemove="window.status='発注予定表へ';return true" onmouseout="window.status='';return true">
+	
+		
+		<font size="-1">葛西臨海水族園（仮称）整備等事業</font>
+	
+	</a>
+	
+
+	
+
+	
+</td>
+
+
+
+    <td>建築工事</td>
+
+
+
+<td>事業契約締結日の翌日から令和30年３月31日まで</td>
+
+
+
+<td>一般競争入札</td>
+
+
+
+<td>A</td>
+
+
+<td style="word-break:break-all">
+
+A,B,C,D,E,X,JV</td>
+
+
+
+<td>3月7日 ～3月10日 </td>
+
+
+
+
+<td class="align-center">受付前</td>
+
+
+
+<td class="align-center">
+<input type="hidden" name="odPlan.getContBureau()" 006="">
+<input type="hidden" name="odPlan.getKikouBureau()" 017="">
+<input type="hidden" name="sContBureau" 財務局="">
+<input type="hidden" name="sBureauType" 1="">
+<input type="hidden" name="sDivisionSectionName" 財務局経理部契約第一課="">
+
+財務局経理部契約第一課</td>
+
+</tr>
+
+
+</tbody></table>
+
+    <table class="TABLEdefault">
+    <tbody><tr>
+    <td width="45%">
+    
+    </td>
+    <td>
+
+					<div class="pagination">
+			        
+					        &nbsp;
+			        
+			    </div>
+					<div class="pagination">
+			        
+			    </div>
+    </td>
+    </tr>
+    <tr>
+        <td colspan="2" class="exp-under-list">
+	        「発注等級」は案件の規模を表し、「受付等級」は事業者が参加可能な格付等級を表します。
+	        <br>
+	        検索結果の絞込みを行う場合は、発注予定案件検索画面へ戻り、条件を指定してください。
+			<br>
+		</td>
+	</tr>
+
+	<tr>
+		<td colspan="2" class="align-center">
+	        <a class="btnLL" href="javascript:SelectSubmit(5,8)" onmouseover="window.status='案件検索画面へ戻る';return true" onmousemove="window.status='案件検索画面へ戻る';return true" onmouseout="window.status='';return true">◀&nbsp;案件検索画面へ戻る</a>
+        </td>
+    </tr>
+    </tbody></table>
+
+<br>
+<br>
+
+<hr>
+<p class="footerExp">発注予定情報に掲載されている各案件に関するお問い合わせ先　　各局所担当部署まで<br>
+画面操作に関するお問い合わせ先　　東京都電子調達システムヘルプデスクまで</p><br>
+</form>
+</div>
+</div>
+
+
+</body></html>

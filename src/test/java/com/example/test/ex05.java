@@ -1,11 +1,13 @@
 package com.example.test;
 
 import static com.codeborne.selenide.Selenide.*;
+
+import java.util.List;
+
 import static com.codeborne.selenide.Selectors.*;
 
 
 import org.junit.Test;
-
 import com.codeborne.selenide.SelenideElement;
 
 public class ex05 {
@@ -39,20 +41,19 @@ public class ex05 {
 			Thread.sleep(3000);
 			
 			SelenideElement table = $(".list-data").find("tbody");
+			List<SelenideElement> element = table.$$("tr");
 			 
 			 int tr = table.$$("tr").size();
 			 for(int i = 1; i <= tr; i++) {
-				 SelenideElement a = table.$$("tr").get(i);
-	                for(int j = 0; j <= 2; j++) {
-	                	SelenideElement b = a.$$("td").get(j);
-	                    
-	                    if(j < 2) {
-	                    	System.out.print(b.text() + ",");
-	                    } else {
-	                    	System.out.print(b.text());
-	                    }
-	                }
-	                System.out.println();
+				  List<String> tdlist = element.get(i).$$("td:nth-of-type(-n+3)").texts();
+				  for(int j = 0; j <=2; j++) {
+					  if(j == 2) {
+						  System.out.print(tdlist.get(j));
+						  continue;
+					  }
+					  System.out.print(tdlist.get(j) + ",");
+				  }
+				  System.out.println();
 	            }
 				
 				Thread.sleep(2000);
